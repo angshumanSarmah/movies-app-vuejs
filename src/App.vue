@@ -1,32 +1,57 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+    <TopNavigation />
     <router-view/>
   </div>
 </template>
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import TopNavigation from './views/TopNavigation.vue';
+
+@Component({
+  components: {
+    TopNavigation,
+  },
+})
+export default class App extends Vue {
+  mounted() {
+    // this.$store.dispatch("loadPopularMovies");
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+body {
+  background-image: linear-gradient(to bottom, #141b29, #0c111b);
+  background-attachment: fixed;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #888; 
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray; 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #4d4d4d; 
+}
+
 </style>
