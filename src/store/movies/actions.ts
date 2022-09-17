@@ -10,6 +10,7 @@ const URLS = {
     TOPIMDB: '/discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc',
     KIDS: '/discover/movie?certification_country=IN&certification.lte=G&sort_by=popularity.desc',
     BESTFROM2000: '/discover/movie?primary_release_year=2010&sort_by=vote_average.desc',
+    BESTDRAMA: '/discover/movie?with_genres=18&sort_by=vote_average.desc&vote_count.gte=10',
 }
 export const IMAGE_BASE_PATH = 'https://image.tmdb.org/t/p/w500';
 
@@ -40,5 +41,7 @@ function getUrl(type: string) {
         case MovieCategory.kids : return  URLS.KIDS;
         case MovieCategory.topImbd : return  URLS.TOPIMDB;
         case MovieCategory.bestFrom2000 : return  URLS.BESTFROM2000;
+        case MovieCategory.drama : return  URLS.BESTDRAMA;
+
     }
 }

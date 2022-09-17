@@ -20,7 +20,8 @@ export default class App extends Vue {
       this.$store.dispatch("fetchMovies", MovieCategory.mostPopular),
       this.$store.dispatch("fetchMovies", MovieCategory.kids),
       this.$store.dispatch("fetchMovies", MovieCategory.topImbd),
-      this.$store.dispatch("fetchMovies", MovieCategory.bestFrom2000),      
+      this.$store.dispatch("fetchMovies", MovieCategory.bestFrom2000),  
+      this.$store.dispatch("fetchMovies", MovieCategory.drama),      
     ])
 
   }

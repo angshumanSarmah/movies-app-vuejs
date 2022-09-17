@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <CustomMovieRow v-if="mostPopular" :listOfMovie="mostPopular" :category="movieCategories.mostPopular"/>
+    <CustomMovieRow v-if="bestDrama" :listOfMovie="bestDrama" :category="movieCategories.drama"/>    
     <CustomMovieRow v-if="bestFrom2000" :listOfMovie="bestFrom2000" :category="movieCategories.bestFrom2000"/>
     <CustomMovieRow v-if="topImbd" :listOfMovie="topImbd" :category="movieCategories.topImbd"/>
     <CustomMovieRow v-if="kids" :listOfMovie="kids" :category="movieCategories.kids"/>    
@@ -55,6 +56,10 @@ export default class HomeView extends Vue {
 
   get movieCategories(): typeof IMovieCategoryValue {
     return IMovieCategoryValue;
+  }
+
+  get bestDrama(): typeof IMovieCategoryValue {
+    return this.$store.getters.bestDrama;
   }
 }
 </script>
