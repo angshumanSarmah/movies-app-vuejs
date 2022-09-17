@@ -2,9 +2,10 @@
 
 An application for finding and filtering movies, this app uses a secret key stored as gitHub secret.
 
-## To visit the site, click on the below link
+### To visit the site, click on the below link
 ```
-[https://asarmah-movie-app.herokuapp.com/]([url](https://asarmah-movie-app.herokuapp.com/))
+https://asarmah-movie-app.herokuapp.com/
+
 ```
 
 ## Project setup
