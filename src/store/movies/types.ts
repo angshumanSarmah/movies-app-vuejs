@@ -13,5 +13,5 @@ export interface IMoviesRecord {
     title: string,
     overview: string,
     poster_path: string,
-    popularity: number
+    vote_average: number
 }

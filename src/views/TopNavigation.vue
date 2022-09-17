@@ -1,7 +1,7 @@
 <template>
   <div class="top-navigation">
     <nav>
-      <router-link to="/" class="home">
+      <router-link to="/">
         <span>Movie</span><span style="color: #fff">App</span>
       </router-link>
     </nav>
@@ -9,6 +9,9 @@
       <div class="search-holder">
         <input type="text" name="search" placeholder="Search..." />
         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+      </div>
+      <div>
+        <button class="subscribe-btn">Subscribe</button>
       </div>
       <div>
         <button class="login-btn">LOGIN</button>
@@ -77,6 +80,18 @@ export default class HelloWorld extends Vue {
     .login-btn {
       background: transparent;
       margin-right: 10px;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .subscribe-btn {
+      background: rgba(0, 153, 255, 0.466);
+      margin-right: 10px;
+      border-radius: 5px;
       border: none;
       color: #fff;
       cursor: pointer;

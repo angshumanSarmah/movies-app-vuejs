@@ -1,7 +1,9 @@
 <template>
   <div class="container">
-    <div class="category">
-      <h3>{{ category }}</h3>
+    <div>
+      <router-link class="category" :to="routeToMoreMovies">
+        <h3>{{ category }}</h3>
+      </router-link>
     </div>
     <button v-if="scrollAmount > 0" @click="goLeft()" class="goto-left-btn">
       <div class="icon">
@@ -27,7 +29,7 @@
         Loading data...
       </span>
       <span v-else v-for="(movie, ind) in currentMovieList" :key="ind">
-        <Card :movie="movie" class="card-holder" />
+        <Card :movie="movie" :category="category" class="card-holder" />
       </span>
     </div>
     <button
@@ -43,6 +45,7 @@
 </template>
 <script lang="ts">
 // @ is an alias to /src
+import { IMovieCategoryValue } from "@/models/models";
 import { IMoviesRecord } from "@/store/movies/types";
 import { Ref } from "vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -57,21 +60,20 @@ import Card from "../components/Card.vue";
 })
 export default class CustomMovieRow extends Vue {
   @Prop() listOfMovie!: IMoviesRecord[];
-  @Prop() category!: string;
+  @Prop() category!: IMovieCategoryValue;
 
   row!: Ref;
   scrollAmount = 0;
 
   mounted() {
     this.row = this.$refs.row;
-    
   }
 
   goRight() {
     console.log(this.scrollAmount);
-    
+
     if (this.scrollAmount <= 2000) {
-      const toScroll = this.scrollAmount >= 2000? 500 : 1000
+      const toScroll = this.scrollAmount >= 2000 ? 500 : 1000;
       this.row.scrollTo({
         left: (this.scrollAmount += toScroll),
         behavior: "smooth",
@@ -92,6 +94,13 @@ export default class CustomMovieRow extends Vue {
     console.log("listOfMovie: ", this.listOfMovie);
     return this.listOfMovie;
   }
+
+  get routeToMoreMovies() {
+    return {
+      name: "moreMovies",
+      params: { category: this.category },
+    };
+  }
 }
 </script>
 
@@ -99,12 +108,12 @@ export default class CustomMovieRow extends Vue {
 .container {
   position: relative;
   max-width: 180rem;
-  height: 22rem;
+  height: 24rem;
   overflow-x: hidden;
   overflow-y: hidden;
 
   .row {
-    bottom: 3em;
+    bottom: 1em;
     transition-delay: 0.6s;
 
     position: relative;
@@ -167,6 +176,12 @@ export default class CustomMovieRow extends Vue {
 
   .category {
     color: #fff;
+    a {
+      &:hover {
+        transform: scale(1.4);
+      }
+
+    }
   }
 }
 </style>

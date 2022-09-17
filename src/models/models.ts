@@ -11,3 +11,10 @@ export enum IMovieCategoryValue {
     kids = 'Kids',
     bestFrom2000 = 'Best from 2000',
 }
+
+export enum IMovieCategoryKey {
+    "Most Popular" = 'mostPopular',
+    "Top IMDB" = 'topImbd',
+    'Kids' = 'kids',
+    'Best from 2000' = 'bestFrom2000',
+}

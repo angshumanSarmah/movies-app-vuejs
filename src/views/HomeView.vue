@@ -16,14 +16,12 @@
 import CustomMovieRow from '@/components/CustomMovieRow.vue';
 import { IMoviesRecord } from '@/store/movies/types';
 import { Component, Vue } from 'vue-property-decorator';
-import Card from '../components/Card.vue';
-import {MovieCategory, IMovieCategoryValue} from '../models/models';
+import {IMovieCategoryValue} from '../models/models';
 // import {WrappedActions as MoviesActions} from '../store/movies/movies.constants';
 // import {Action} from 'vuex-class';
 
 @Component({
   components: {
-    Card,
     CustomMovieRow
   },
 })
