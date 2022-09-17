@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <TopNavigation />
-    <router-view/>
+    <TopNavigation class="header"/>
+    <router-view class="main-view"/>
   </div>
 </template>
 <script lang="ts">
@@ -15,7 +15,7 @@ import TopNavigation from './views/TopNavigation.vue';
 })
 export default class App extends Vue {
   mounted() {
-    // this.$store.dispatch("loadPopularMovies");
+    this.$store.dispatch("loadPopularMovies");
   }
 }
 </script>
@@ -25,11 +25,25 @@ export default class App extends Vue {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-view {
+  top: 5em;
+  position: relative;
+}
+
+.header {
+  position: fixed;
+  z-index: 100;
+  width: 100%;
 }
 
 body {
   background-image: linear-gradient(to bottom, #141b29, #0c111b);
   background-attachment: fixed;
+  margin: 0 !important;
 }
 
 /* width */
