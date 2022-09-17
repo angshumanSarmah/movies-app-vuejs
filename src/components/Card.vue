@@ -1,20 +1,26 @@
 <template>
   <div class="card">
-    <router-link to="">
-      <img :src="movieDetails?.poster_path" alt="" class="image" />
+    <router-link :to="routeToDetails" :key="movieDetails?.title">
+      <span class="rating" style="">{{ movieDetails?.vote_average }}/10</span>
+      <img
+        :src="movieDetails?.poster_path || '../assets/ironman.jpg'"
+        alt=""
+        class="image"
+      />
       <div class="detail">
-        <h3>{{movieDetails?.title}}</h3>
+        <h3>{{ movieDetails?.title }}</h3>
+
         <div class="more-info">
           <p>
-            {{movieDetails?.overview}}
+            {{ movieDetails?.overview }}
           </p>
-          <button> 
+          <button>
             <font-awesome-icon :icon="['fas', 'fa-play']" />
             Watch now
           </button>
-          
+
           <br />
-          <button> 
+          <button>
             <font-awesome-icon :icon="['fas', 'fa-plus']" />
             Add to Watchlist
           </button>
@@ -39,11 +45,13 @@
 <script lang="ts">
 import { IMAGE_BASE_PATH } from "@/store/movies/actions";
 import { Component, Prop, Vue } from "vue-property-decorator";
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from "lodash/cloneDeep";
 import { IMoviesRecord } from "@/store/movies/types";
+import { IMovieCategoryValue } from "@/models/models";
 @Component
 export default class Card extends Vue {
   @Prop() movie!: IMoviesRecord;
+  @Prop() category!: IMovieCategoryValue;
 
   movieData!: IMoviesRecord;
 
@@ -55,21 +63,31 @@ export default class Card extends Vue {
   get movieDetails() {
     const movieDetails = cloneDeep(this.movie);
     console.log("movieDetails: ", movieDetails);
-    
+
     movieDetails.poster_path = `${IMAGE_BASE_PATH}${this.movie.poster_path}`;
     return movieDetails;
+  }
+
+  get routeToDetails() {
+    return {
+      name: 'movieDetails',
+      params: {details: this.movieDetails, category: this.category}
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-
 @mixin detail-basic-style {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: linear-gradient(rgba(0, 0, 0, .49) 10%, rgba(0, 0, 0, .69) 30%, rgba(0, 0, 0, .93) 50%);
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.49) 10%,
+    rgba(0, 0, 0, 0.69) 30%,
+    rgba(0, 0, 0, 0.93) 50%
+  );
   border-radius: 7px;
   padding: 16px;
   z-index: 1;
@@ -78,18 +96,19 @@ export default class Card extends Vue {
 .card {
   width: 12em;
   height: 17em;
-  margin: .3em;
+  margin: 0.3em;
   position: relative;
   &:hover {
     transform: scale(1.2);
-    z-index:10;
-    transition-duration: .6s;
+    z-index: 10;
+    transition-duration: 0.6s;
 
     //to show the details
     .detail {
       height: 5em;
-      transition-duration: .6s;
-      h3 {
+      transition-duration: 0.6s;
+      h3,
+      h5 {
         display: none;
       }
       .more-info {
@@ -98,7 +117,7 @@ export default class Card extends Vue {
         color: #fff;
         font-size: xx-small;
 
-        button{
+        button {
           font-size: xx-small;
           width: 100%;
           cursor: pointer;
@@ -123,7 +142,9 @@ export default class Card extends Vue {
         }
       }
     }
-    
+    .rating {
+      display: none;
+    }
   }
   .image {
     display: block;
@@ -149,21 +170,33 @@ export default class Card extends Vue {
       margin-top: 12px;
       white-space: break-spaces;
       @supports (-webkit-line-clamp: 2) {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: initial;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-        }
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: initial;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
     }
 
-    .more-info{
+    h5 {
+    }
+
+    .more-info {
       visibility: hidden;
       opacity: 0;
       transition: visibility 0s, opacity 0.6s linear;
     }
   }
-}
 
+  .rating {
+    float: right;
+    position: absolute;
+    z-index: 1;
+    right: 0em;
+    color: rgb(255, 230, 0);
+    padding: 1em;
+    font-weight: bold;
+  }
+}
 </style>

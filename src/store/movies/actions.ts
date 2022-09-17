@@ -21,8 +21,8 @@ export const actions: ActionTree<IMoviesState, IRootStoreState> = {
                 const url = getUrl(type);
                 const data = await axios.get(`${BASE_URL}${url}&api_key=${process.env.VUE_APP_API_KEY}`);
                 const movieDetails = data.data.results.map((result: any)=> {
-                    const {title, overview, poster_path, popularity} = result;
-                    return {title, overview, poster_path, popularity}
+                    const {title, overview, poster_path, vote_average} = result;
+                    return {title, overview, poster_path, vote_average}
                 });
                 commit('setMovies', {movieDetails, type});
                 commit('setMoviesLoaded');
