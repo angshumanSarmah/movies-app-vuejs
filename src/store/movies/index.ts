@@ -14,6 +14,7 @@ const state: IMoviesState = {
         [MovieCategory.topImbd]: [],
         [MovieCategory.kids]: [],
         [MovieCategory.bestFrom2000]: [],
+        [MovieCategory.drama]: [],
     }
 }
 
