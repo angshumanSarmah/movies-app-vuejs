@@ -1,11 +1,17 @@
+import { MovieCategory } from "@/models/models"
+
 export interface IMoviesState {
     moviesApiCalled: boolean,
-    moviesRecord: IMoviesRecord[],
+    moviesRecordByCategory:  IMoviesRecordByCategory,
+}
+
+export type IMoviesRecordByCategory = {
+    [key in MovieCategory]: IMoviesRecord[]
 }
 
 export interface IMoviesRecord {
     title: string,
     overview: string,
     poster_path: string,
-    // rating: number
+    popularity: number
 }

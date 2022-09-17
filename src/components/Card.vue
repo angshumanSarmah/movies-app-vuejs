@@ -4,9 +4,21 @@
       <img :src="movieDetails?.poster_path" alt="" class="image" />
       <div class="detail">
         <h3>{{movieDetails?.title}}</h3>
-        <p>
-          {{movieDetails?.overview}}
-        </p>
+        <div class="more-info">
+          <p>
+            {{movieDetails?.overview}}
+          </p>
+          <button> 
+            <font-awesome-icon :icon="['fas', 'fa-play']" />
+            Watch now
+          </button>
+          
+          <br />
+          <button> 
+            <font-awesome-icon :icon="['fas', 'fa-plus']" />
+            Add to Watchlist
+          </button>
+        </div>
       </div>
     </router-link>
     <!-- <router-link to="">
@@ -80,24 +92,34 @@ export default class Card extends Vue {
       h3 {
         display: none;
       }
-      p {
+      .more-info {
         visibility: visible;
         opacity: 1;
         color: #fff;
         font-size: xx-small;
-        white-space: nowrap;
-        //for elipses on description above cards
-        //for older browsers
-        text-overflow: ellipsis;
-        overflow: hidden;
-        //for newer browsers
-        @supports (-webkit-line-clamp: 4) {
-          overflow: hidden;
+
+        button{
+          font-size: xx-small;
+          width: 100%;
+          cursor: pointer;
+          margin-bottom: 5px;
+        }
+
+        p {
+          white-space: nowrap;
+          //for elipses on description above cards
+          //for older browsers
           text-overflow: ellipsis;
-          white-space: initial;
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
+          overflow: hidden;
+          //for newer browsers
+          @supports (-webkit-line-clamp: 4) {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: initial;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+          }
         }
       }
     }
@@ -136,7 +158,7 @@ export default class Card extends Vue {
         }
     }
 
-    p{
+    .more-info{
       visibility: hidden;
       opacity: 0;
       transition: visibility 0s, opacity 0.6s linear;

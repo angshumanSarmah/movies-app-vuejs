@@ -32,7 +32,7 @@
     </div>
     <button
       class="goto-right-btn"
-      v-if="scrollAmount < 2700"
+      v-if="scrollAmount <= 2000"
       @click="goRight()"
     >
       <div class="icon">
@@ -68,9 +68,12 @@ export default class CustomMovieRow extends Vue {
   }
 
   goRight() {
-    if (this.scrollAmount < 2700) {
+    console.log(this.scrollAmount);
+    
+    if (this.scrollAmount <= 2000) {
+      const toScroll = this.scrollAmount >= 2000? 500 : 1000
       this.row.scrollTo({
-        left: (this.scrollAmount += 900),
+        left: (this.scrollAmount += toScroll),
         behavior: "smooth",
       });
     }
@@ -79,7 +82,7 @@ export default class CustomMovieRow extends Vue {
   goLeft() {
     if (this.scrollAmount > 0) {
       this.row.scrollTo({
-        left: (this.scrollAmount -= 900),
+        left: (this.scrollAmount -= 1000),
         behavior: "smooth",
       });
     }
@@ -95,7 +98,7 @@ export default class CustomMovieRow extends Vue {
 <style lang="scss" scoped>
 .container {
   position: relative;
-  max-width: 200rem;
+  max-width: 180rem;
   height: 22rem;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -121,9 +124,9 @@ export default class CustomMovieRow extends Vue {
 
   @mixin button-style {
     width: 5em;
-    height: 20.5em;
+    height: 20.6em;
     position: absolute;
-    top: 4.2em;
+    top: 3.5em;
     z-index: 11;
     opacity: 0.5;
     border: none;
