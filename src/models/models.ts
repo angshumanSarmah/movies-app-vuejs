@@ -3,6 +3,7 @@ export enum MovieCategory {
     topImbd = 'topImbd',
     kids = 'kids',
     bestFrom2000 = 'bestFrom2000',
+    drama = 'drama',
 }
 
 export enum IMovieCategoryValue {
@@ -10,6 +11,7 @@ export enum IMovieCategoryValue {
     topImbd = "Top IMDB",
     kids = 'Kids',
     bestFrom2000 = 'Best from 2000',
+    drama = 'Drama',
 }
 
 export enum IMovieCategoryKey {
@@ -17,4 +19,5 @@ export enum IMovieCategoryKey {
     "Top IMDB" = 'topImbd',
     'Kids' = 'kids',
     'Best from 2000' = 'bestFrom2000',
+    'Drama' = 'drama',
 }
