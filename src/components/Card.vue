@@ -1,15 +1,15 @@
 <template>
   <div class="card">
-    <!-- <router-link to="">
-      <img :src="movieDetails.poster_path" alt="" class="image" />
+    <router-link to="">
+      <img :src="movieDetails?.poster_path" alt="" class="image" />
       <div class="detail">
-        <h3>{{movieDetails.title}}</h3>
+        <h3>{{movieDetails?.title}}</h3>
         <p>
-          {{movieDetails.overview}}
+          {{movieDetails?.overview}}
         </p>
       </div>
-    </router-link> -->
-    <router-link to="">
+    </router-link>
+    <!-- <router-link to="">
       <img src="../assets/ironman.jpg" alt="" class="image" />
       <div class="detail">
         <h3>ABCD Title</h3>
@@ -20,7 +20,7 @@
           placeat iure. Praesentium?
         </p>
       </div>
-    </router-link>
+    </router-link> -->
   </div>
 </template>
 
@@ -29,13 +29,21 @@ import { IMAGE_BASE_PATH } from "@/store/movies/actions";
 import { Component, Prop, Vue } from "vue-property-decorator";
 import cloneDeep from 'lodash/cloneDeep'
 import { IMoviesRecord } from "@/store/movies/types";
-
 @Component
 export default class Card extends Vue {
-  @Prop() private movie!: IMoviesRecord;
+  @Prop() movie!: IMoviesRecord;
 
+  movieData!: IMoviesRecord;
+
+  // mounted() {
+  //   this.movieData = cloneDeep(this.movie);
+  //   console.log("this.movieData", this.movie)
+
+  // }
   get movieDetails() {
     const movieDetails = cloneDeep(this.movie);
+    console.log("movieDetails: ", movieDetails);
+    
     movieDetails.poster_path = `${IMAGE_BASE_PATH}${this.movie.poster_path}`;
     return movieDetails;
   }
@@ -49,15 +57,15 @@ export default class Card extends Vue {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: linear-gradient(rgba(0, 0, 0, .5) 20%, rgba(0, 0, 0, 1));
+  background-image: linear-gradient(rgba(0, 0, 0, .49) 10%, rgba(0, 0, 0, .69) 30%, rgba(0, 0, 0, .93) 50%);
   border-radius: 7px;
   padding: 16px;
   z-index: 1;
 }
 
 .card {
-  width: 15em;
-  height: 22em;
+  width: 12em;
+  height: 17em;
   margin: .3em;
   position: relative;
   &:hover {
@@ -68,6 +76,7 @@ export default class Card extends Vue {
     //to show the details
     .detail {
       height: 5em;
+      transition-duration: .6s;
       h3 {
         display: none;
       }
@@ -75,7 +84,7 @@ export default class Card extends Vue {
         visibility: visible;
         opacity: 1;
         color: #fff;
-        font-size: small;
+        font-size: xx-small;
         white-space: nowrap;
         //for elipses on description above cards
         //for older browsers
@@ -115,7 +124,16 @@ export default class Card extends Vue {
     h3 {
       color: #fff;
       text-align: center;
-      margin-top: 12px
+      margin-top: 12px;
+      white-space: break-spaces;
+      @supports (-webkit-line-clamp: 2) {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: initial;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
     }
 
     p{
