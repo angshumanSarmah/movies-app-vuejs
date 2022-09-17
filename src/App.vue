@@ -5,7 +5,8 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
+import { MovieCategory } from './models/models';
 import TopNavigation from './views/TopNavigation.vue';
 
 @Component({
@@ -15,7 +16,13 @@ import TopNavigation from './views/TopNavigation.vue';
 })
 export default class App extends Vue {
   mounted() {
-    this.$store.dispatch("loadPopularMovies");
+    Promise.all([
+      this.$store.dispatch("fetchMovies", MovieCategory.mostPopular),
+      this.$store.dispatch("fetchMovies", MovieCategory.kids),
+      this.$store.dispatch("fetchMovies", MovieCategory.topImbd),
+      this.$store.dispatch("fetchMovies", MovieCategory.bestFrom2000),      
+    ])
+
   }
 }
 </script>
