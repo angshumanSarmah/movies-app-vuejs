@@ -2,7 +2,7 @@
   <div class="top-navigation">
     <nav>
       <router-link to="/" class="home">
-        <span>Movie</span><span style="color: #fff">Buff</span>
+        <span>Movie</span><span style="color: #fff">App</span>
       </router-link>
     </nav>
     <div class="right-side-items">
