@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkmovie_app_vuejs"]=self["webpackChunkmovie_app_vuejs"]||[]).push([[443],{2323:function(u,e,n){n.r(e),n.d(e,{default:function(){return r}});var s=function(){var u=this;u._self._c;return u._m(0)},t=[function(){var u=this,e=u._self._c;return e("div",{staticClass:"about"},[e("h1",[u._v("This is an about page")])])}],a=n(1001),i={},l=(0,a.Z)(i,s,t,!1,null,null,null),r=l.exports}}]);
+//# sourceMappingURL=about.024671a4.js.map
