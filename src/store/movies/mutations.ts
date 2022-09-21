@@ -8,6 +8,9 @@ const mutations: MutationTree<IMoviesState> = {
     },
     setMoviesLoaded(state, status = true) {
         state.moviesApiCalled = status;
+    },
+    setLoadDefaultCards(state, status: boolean) {
+        state.loadDefaultCards = status;
     }
 }
 

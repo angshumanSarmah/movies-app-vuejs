@@ -1,65 +1,88 @@
 <template>
   <div>
-    <div class="movie-details">
-        <img
-          :src="details?.poster_path || '../assets/ironman.jpg'"
-          alt=""
-          class="image"
-        />   
-        <div class="right-side">
-          <h1>
-            {{details?.title}} <span class="rating">({{details.vote_average}})</span>
-          </h1>
-          <div class="overview"> {{details.overview}}</div>
-        </div>  
+    <div v-if="loadDefaultCardData" class="movie-details">
+      <img
+        src="../assets/ironman.jpg"
+        alt=""
+        class="image"
+      />
+      <div class="right-side">
+        <h1>
+          Default Title
+          <span class="rating">({{Math.ceil(Math.random()*10)}})</span>
+        </h1>
+        <div class="overview">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magnam deleniti repellat laboriosam. Fuga, iusto nihil nemo sed, voluptatum esse nulla earum quasi, alias sequi officiis laborum exercitationem hic eligendi.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magnam deleniti repellat laboriosam. Fuga, iusto nihil nemo sed, voluptatum esse nulla earum quasi, alias sequi officiis laborum exercitationem hic eligendi.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magnam deleniti repellat laboriosam. Fuga, iusto nihil nemo sed, voluptatum esse nulla earum quasi, alias sequi officiis laborum exercitationem hic eligendi.
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis magnam deleniti repellat laboriosam. Fuga, iusto nihil nemo sed, voluptatum esse nulla earum quasi, alias sequi officiis laborum exercitationem hic eligendi.
+        </div>
+      </div>
     </div>
-    <CustomMovieRow :listOfMovie="moreFromTheSameCategory" :category="category"/>
+    <div v-else class="movie-details">
+      <img
+        v-if="details?.poster_path"
+        :src="details?.poster_path"
+        alt=""
+        class="image"
+      />
+      <div class="right-side">
+        <h1>
+          {{ details?.title }}
+          <span class="rating">({{ details.vote_average }})</span>
+        </h1>
+        <div class="overview">{{ details.overview }}</div>
+      </div>
+    </div>
+    <CustomMovieRow
+      v-if="moreFromTheSameCategory?.length || loadDefaultCardData"
+      :listOfMovie="moreFromTheSameCategory"
+      :category="category"
+    />
+    <div v-else class="no-records">
+      <span> No records found...</span>
+    </div>
   </div>
-
 </template>
 
 <script lang="ts">
-
-
- // @ is an alias to /src
-import CustomMovieRow from '@/components/CustomMovieRow.vue';
-import { IMAGE_BASE_PATH } from '@/store/movies/actions';
-import { IMoviesRecord } from '@/store/movies/types';
-import { cloneDeep } from 'lodash';
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import Card from '../components/Card.vue';
-import {IMovieCategoryKey, IMovieCategoryValue} from '../models/models';
+// @ is an alias to /src
+import CustomMovieRow from "@/components/CustomMovieRow.vue";
+import { IMAGE_BASE_PATH } from "@/store/movies/actions";
+import { IMoviesRecord } from "@/store/movies/types";
+import { cloneDeep } from "lodash";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { IMovieCategoryKey, IMovieCategoryValue } from "../models/models";
 // import {WrappedActions as MoviesActions} from '../store/movies/movies.constants';
 // import {Action} from 'vuex-class';
 
 @Component({
   components: {
-    CustomMovieRow
+    CustomMovieRow,
   },
 })
 export default class MovieDetails extends Vue {
-    @Prop() details!: IMoviesRecord;
-    @Prop() category!: IMovieCategoryValue;
+  @Prop() details!: IMoviesRecord;
+  @Prop() category!: IMovieCategoryValue;
 
 
-    mounted() {
-      console.log("details: ", this.details);
-      
-    }
+  mounted() {
+    console.log("details: ", this.details);
+  }
 
-    
-  get moreFromTheSameCategory(): IMoviesRecord[] {  
-    console.log("===========mostPopular: ", this.$store.getters[this.movieCategoryKeyFromValue]);
+    get loadDefaultCardData() {    
+    return this.$store.getters.onlyDefaultCards;
+  }
+
+  get moreFromTheSameCategory(): IMoviesRecord[] {
     return this.$store.getters[this.movieCategoryKeyFromValue];
   }
 
-  
   get movieCategories(): typeof IMovieCategoryValue {
     return IMovieCategoryValue;
   }
 
   get movieCategoryKeyFromValue() {
-    return IMovieCategoryKey[this.category]
+    return IMovieCategoryKey[this.category];
   }
 
   get movieDetails() {
@@ -76,10 +99,11 @@ export default class MovieDetails extends Vue {
   display: flex;
   flex-direction: row;
 
-img {
+  img {
     height: 30em;
   }
   .right-side {
+    color: #fff;
     margin-top: auto;
     padding: 10px;
     display: flex;
@@ -90,8 +114,16 @@ img {
     }
 
     .overview {
-      font-size: small
+      font-size: large;
     }
+  }
+
+  .no-records {
+    span {
+      color: #fff;
+    }
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

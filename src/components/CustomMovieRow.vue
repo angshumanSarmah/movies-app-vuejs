@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <router-link class="category" :to="routeToMoreMovies">
-        <h3>{{ category }}</h3>
+        <h3>{{ showCategoryName }}</h3>
       </router-link>
     </div>
     <button v-if="scrollAmount > 0" @click="goLeft()" class="goto-left-btn">
@@ -11,23 +11,14 @@
       </div>
     </button>
     <div class="row" ref="row">
-      <!-- <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" />
-      <card class="card-holder" /> -->
-
-      <span v-if="!currentMovieList || currentMovieList.length === 0">
-        Loading data...
+      <span v-if="loadDefaultCardData">
+        <span v-for="el in 20" :key="el">
+          <card :show-default-data="true"  class="card-holder" />
+        </span>
       </span>
+      <div class="loading-div" v-else-if="!currentMovieList || currentMovieList.length === 0">
+        Loading data...
+      </div>
       <span v-else v-for="(movie, ind) in currentMovieList" :key="ind">
         <Card :movie="movie" :category="category" class="card-holder" />
       </span>
@@ -90,6 +81,10 @@ export default class CustomMovieRow extends Vue {
     }
   }
 
+  get loadDefaultCardData() {    
+    return this.$store.getters.onlyDefaultCards;
+  }
+
   get currentMovieList(): IMoviesRecord[] {
     console.log("listOfMovie: ", this.listOfMovie);
     return this.listOfMovie;
@@ -100,6 +95,10 @@ export default class CustomMovieRow extends Vue {
       name: "moreMovies",
       params: { category: this.category },
     };
+  }
+
+  get showCategoryName() {
+    return this.category || this.loadDefaultCardData && ('Default data');
   }
 }
 </script>
@@ -135,7 +134,7 @@ export default class CustomMovieRow extends Vue {
     width: 5em;
     height: 20.6em;
     position: absolute;
-    top: 3.5em;
+    top: 6em;
     z-index: 11;
     opacity: 0.5;
     border: none;
@@ -176,12 +175,21 @@ export default class CustomMovieRow extends Vue {
 
   .category {
     color: #fff;
-    a {
+    
       &:hover {
-        transform: scale(1.4);
+        font-size:large;
+        transition: .6s;
+        color: rgb(59, 59, 231)
       }
 
-    }
+    
+  }
+
+  .loading-div {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+
   }
 }
 </style>

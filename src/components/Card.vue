@@ -1,12 +1,48 @@
 <template>
   <div class="card">
-    <router-link :to="routeToDetails" :key="movieDetails?.title">
-      <span class="rating" style="">{{ movieDetails?.vote_average }}/10</span>
+    <router-link v-if="showDefaultData" :to="routeToDetails" >
+
+      <span class="rating" style=""> {{Math.ceil(Math.random()*10)}}/10</span>
       <img
-        :src="movieDetails?.poster_path || '../assets/ironman.jpg'"
+        src="../assets/ironman.jpg"
         alt=""
         class="image"
       />
+      <div class="detail">
+        <h3>Default Title</h3>
+
+        <div class="more-info">
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas
+          expedita a reiciendis ad eligendi odio voluptatibus id dolor
+          repudiandae, pariatur et aut illo iusto, nulla distinctio debitis,
+          placeat iure. Praesentium?
+          </p>
+          <button @click="watchNow">
+            <font-awesome-icon :icon="['fas', 'fa-play']" />
+            Watch now
+          </button>
+
+          <br />
+          <button @click="addToWatchList">
+            <font-awesome-icon :icon="['fas', 'fa-plus']" />
+            Add to Watchlist
+          </button>
+        </div>
+      </div>
+
+    </router-link> 
+    <router-link v-else :to="routeToDetails" :key="movieDetails?.title">
+      <span class="rating" style="">{{ movieDetails?.vote_average }}/10</span>
+      <img
+        v-if="movieDetails?.poster_path"
+        :src="movieDetails?.poster_path"
+        alt=""
+        class="image"
+      />
+      <div v-else class="image">
+        <span>No Preview Found</span>
+      </div>
       <div class="detail">
         <h3>{{ movieDetails?.title }}</h3>
 
@@ -14,31 +50,19 @@
           <p>
             {{ movieDetails?.overview }}
           </p>
-          <button>
+          <button @click="watchNow">
             <font-awesome-icon :icon="['fas', 'fa-play']" />
             Watch now
           </button>
 
           <br />
-          <button>
+          <button @click="addToWatchList">
             <font-awesome-icon :icon="['fas', 'fa-plus']" />
             Add to Watchlist
           </button>
         </div>
       </div>
     </router-link>
-    <!-- <router-link to="">
-      <img src="../assets/ironman.jpg" alt="" class="image" />
-      <div class="detail">
-        <h3>ABCD Title</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas
-          expedita a reiciendis ad eligendi odio voluptatibus id dolor
-          repudiandae, pariatur et aut illo iusto, nulla distinctio debitis,
-          placeat iure. Praesentium?
-        </p>
-      </div>
-    </router-link> -->
   </div>
 </template>
 
@@ -52,6 +76,7 @@ import { IMovieCategoryValue } from "@/models/models";
 export default class Card extends Vue {
   @Prop() movie!: IMoviesRecord;
   @Prop() category!: IMovieCategoryValue;
+  @Prop({default: false}) showDefaultData!: boolean
 
   movieData!: IMoviesRecord;
 
@@ -62,10 +87,10 @@ export default class Card extends Vue {
   // }
   get movieDetails() {
     const movieDetails = cloneDeep(this.movie);
-    console.log("movieDetails: ", movieDetails);
-
-    movieDetails.poster_path = `${IMAGE_BASE_PATH}${this.movie.poster_path}`;
-    return movieDetails;
+    if(this.movie) {
+      movieDetails.poster_path = `${IMAGE_BASE_PATH}${this.movie?.poster_path}`;
+    }
+    return movieDetails || {};
   }
 
   get routeToDetails() {
@@ -73,6 +98,14 @@ export default class Card extends Vue {
       name: 'movieDetails',
       params: {details: this.movieDetails, category: this.category}
     }
+  }
+
+  addToWatchList(event: Event) {
+    event.preventDefault();
+  }
+
+  watchNow(event: Event) {
+    event.preventDefault();
   }
 }
 </script>
@@ -147,6 +180,7 @@ export default class Card extends Vue {
     }
   }
   .image {
+    color: #fff;
     display: block;
     width: 100%;
     height: 100%;

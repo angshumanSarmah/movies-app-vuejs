@@ -1,10 +1,14 @@
 <template>
   <div class="home">
-    <CustomMovieRow v-if="mostPopular" :listOfMovie="mostPopular" :category="movieCategories.mostPopular"/>
-    <CustomMovieRow v-if="bestDrama" :listOfMovie="bestDrama" :category="movieCategories.drama"/>    
-    <CustomMovieRow v-if="bestFrom2000" :listOfMovie="bestFrom2000" :category="movieCategories.bestFrom2000"/>
-    <CustomMovieRow v-if="topImbd" :listOfMovie="topImbd" :category="movieCategories.topImbd"/>
-    <CustomMovieRow v-if="kids" :listOfMovie="kids" :category="movieCategories.kids"/>    
+    <Toaster />
+    <CustomMovieRow v-if="mostPopular.length" :listOfMovie="mostPopular" :category="movieCategories.mostPopular"/>
+    <CustomMovieRow v-if="drama.length" :listOfMovie="drama" :category="movieCategories.drama"/>    
+    <CustomMovieRow v-if="bestFrom2000.length" :listOfMovie="bestFrom2000" :category="movieCategories.bestFrom2000"/>
+    <CustomMovieRow v-if="topImbd.length" :listOfMovie="topImbd" :category="movieCategories.topImbd"/>
+    <CustomMovieRow v-if="kids.length" :listOfMovie="kids" :category="movieCategories.kids"/>
+    <div class="no-records" v-if="noDataFound">
+      <span> Something went wrong, No records found...</span>
+    </div>  
   </div>
 </template>
 
@@ -13,6 +17,8 @@
 
  // @ is an alias to /src
 import CustomMovieRow from '@/components/CustomMovieRow.vue';
+import Toaster from '@/components/Toaster.vue';
+
 import { IMoviesRecord } from '@/store/movies/types';
 import { Component, Vue } from 'vue-property-decorator';
 import {IMovieCategoryValue} from '../models/models';
@@ -21,7 +27,8 @@ import {IMovieCategoryValue} from '../models/models';
 
 @Component({
   components: {
-    CustomMovieRow
+    CustomMovieRow,
+    Toaster
   },
 })
 export default class HomeView extends Vue {
@@ -58,8 +65,12 @@ export default class HomeView extends Vue {
     return IMovieCategoryValue;
   }
 
-  get bestDrama(): typeof IMovieCategoryValue {
-    return this.$store.getters.bestDrama;
+  get drama(): typeof IMovieCategoryValue {
+    return this.$store.getters.drama;
+  }
+
+get noDataFound() {
+    return !(this.mostPopular.length && this.kids.length && this.topImbd.length && this.bestFrom2000.length);
   }
 }
 </script>
@@ -71,5 +82,10 @@ export default class HomeView extends Vue {
   // flex-wrap: wrap;
   // align-items: center;
   // justify-content: center;
+  .no-records {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+  }
 }
 </style>

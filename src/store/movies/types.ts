@@ -3,6 +3,7 @@ import { MovieCategory } from "@/models/models"
 export interface IMoviesState {
     moviesApiCalled: boolean,
     moviesRecordByCategory:  IMoviesRecordByCategory,
+    loadDefaultCards: boolean,
 }
 
 export type IMoviesRecordByCategory = {

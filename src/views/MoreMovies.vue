@@ -1,6 +1,18 @@
 <template>
   <div class="container">
-    Category: {{category}}
+    <div class="header">
+      <span>More from: {{category}}</span>
+    </div>
+    <div v-if="loadDefaultCardData" class="movies">
+        <span  v-for="el in 20" :key="el">
+          <card :show-default-data="true"  class="card-holder" />
+        </span>
+    </div>
+    <div v-else class="movies">
+      <span  v-for="(movie, ind) in moreFromTheSameCategory" :key="ind">
+        <Card :movie="movie" :category="category" class="card-holder"/>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -9,12 +21,10 @@
 
  // @ is an alias to /src
 import CustomMovieRow from '@/components/CustomMovieRow.vue';
-import { IMAGE_BASE_PATH } from '@/store/movies/actions';
 import { IMoviesRecord } from '@/store/movies/types';
-import { cloneDeep } from 'lodash';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import Card from '../components/Card.vue';
-import { IMovieCategoryValue, MovieCategory} from '../models/models';
+import { IMovieCategoryKey, IMovieCategoryValue} from '../models/models';
 // import {WrappedActions as MoviesActions} from '../store/movies/movies.constants';
 // import {Action} from 'vuex-class';
 
@@ -25,17 +35,49 @@ import { IMovieCategoryValue, MovieCategory} from '../models/models';
   },
 })
 export default class MoreMovies extends Vue {
-    @Prop() category!: MovieCategory;
+    @Prop() category!: IMovieCategoryValue;
 
     mounted() {
       console.log("category: ", this.category);
     }
 
+      get loadDefaultCardData() {    
+    return this.$store.getters.onlyDefaultCards;
+  }
+
+
+      
+  get moreFromTheSameCategory(): IMoviesRecord[] {  
+    return this.$store.getters[this.movieCategoryKeyFromValue];
+  }
+
+  
+  get movieCategories(): typeof IMovieCategoryValue {
+    return IMovieCategoryValue;
+  }
+
+  get movieCategoryKeyFromValue() {
+    return IMovieCategoryKey[this.category]
+  }
   
 }
 </script>
 <style lang="scss" scoped>
 .container {
-  height: inherit;
+  color: #fff;
+  .header {
+    position: absolute;
+    height: 2em;
+    font-size: 2em;
+    text-align: center;
+  }
+  .movies {
+    position: absolute;
+    top: 5em;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 1em;
+  }
 }
 </style>
