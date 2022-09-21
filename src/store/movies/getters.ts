@@ -16,7 +16,10 @@ export const getters: GetterTree<IMoviesState, IRootStoreState> = {
     bestFrom2000(state): IMoviesRecord[] {
         return state.moviesRecordByCategory.bestFrom2000;
     },
-    bestDrama(state): IMoviesRecord[] {
+    drama(state): IMoviesRecord[] {
         return state.moviesRecordByCategory.drama;
+    },
+    onlyDefaultCards(state): boolean {
+        return state.loadDefaultCards;
     }
 }

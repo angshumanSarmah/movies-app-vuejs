@@ -1,31 +1,66 @@
 <template>
   <div class="top-navigation">
+    <Toaster v-if="showToaster" :content="toasterContent" @remove-toast="showToaster = false"/>
     <nav>
       <router-link to="/">
         <span>Movie</span><span style="color: #fff">App</span>
       </router-link>
     </nav>
     <div class="right-side-items">
+
       <div class="search-holder">
         <input type="text" name="search" placeholder="Search..." />
         <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
       </div>
-      <div>
-        <button class="subscribe-btn">Subscribe</button>
+      <div class="default-checkbox">
+        <label for="default-data-checkbox" class="checkbox-label"
+          >Show Default Data</label
+        >
+        <input
+          type="checkbox"
+          name="default-data-checkbox"
+          id="default-data-checkbox"
+          @input="updateLoadDefaultCardsState"
+        />
       </div>
       <div>
-        <button class="login-btn">LOGIN</button>
+        <button @click="subscribe()" class="subscribe-btn">Subscribe</button>
+      </div>
+      <div>
+        <button @click="login()" class="login-btn">LOGIN</button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
+import Toaster from "../components/Toaster.vue";
 
-@Component
-export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+@Component({
+  components: {
+    Toaster
+  }
+})
+export default class TopNavigation extends Vue {
+  
+  showToaster = false;
+  toasterContent = '';
+
+  updateLoadDefaultCardsState(event: any) { 
+    console.log(event.target.checked);
+    this.$store.commit("setLoadDefaultCards", event.target.checked);
+  }
+
+  subscribe() {    
+    this.showToaster = true;
+    this.toasterContent = 'Feature is not implemented';
+  }
+
+  login() {
+    this.showToaster = true;
+    this.toasterContent = 'Feature is not implemented';
+  }
 }
 </script>
 
@@ -41,12 +76,12 @@ export default class HelloWorld extends Vue {
     padding: 30px;
     a {
       font-weight: bold;
-      color: #2c3e50;
+      color: #42b983;
       font-size: x-large;
 
-      &.router-link-exact-active {
-        color: #42b983;
-      }
+      // &.router-link-exact-active {
+      //   color: #2c3e50;
+      // }
     }
     &:hover {
       transform: scale(1.1);
@@ -56,6 +91,12 @@ export default class HelloWorld extends Vue {
   .right-side-items {
     display: flex;
     margin-left: auto;
+    .default-checkbox {
+      margin-right: 1em;
+      .checkbox-label {
+        color: #fff;
+      }
+    }
     .search-holder {
       height: 1.5em;
       margin-right: 1em;
@@ -72,7 +113,7 @@ export default class HelloWorld extends Vue {
         border: 0;
         &:focus {
           width: 20em;
-          transition-delay: .2s;
+          transition-delay: 0.2s;
         }
       }
     }

@@ -9,6 +9,7 @@ import { MovieCategory } from "@/models/models";
 
 const state: IMoviesState = {
     moviesApiCalled: false,
+    loadDefaultCards: false,
     moviesRecordByCategory: {
         [MovieCategory.mostPopular]: [],
         [MovieCategory.topImbd]: [],
